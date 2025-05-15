@@ -20,7 +20,3 @@ body {
   text-shadow: 2px 2px black;
   margin-bottom: 20px;
 }
-
-.character-img {
-  width: 300px; /* 크기 조정 가능 */
-}
