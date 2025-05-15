@@ -20,3 +20,20 @@ body {
   text-shadow: 2px 2px black;
   margin-bottom: 20px;
 }
+
+.footer {
+  margin-top: 40px;
+  padding: 20px 0;
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+.social-icon {
+  width: 40px;
+  margin: 0 10px;
+  transition: transform 0.2s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.2);
+}
