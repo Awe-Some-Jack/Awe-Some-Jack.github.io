@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  font-family: sans-serif;
+  text-align: center; /* 기본 텍스트 중앙정렬 */
+}
+
+.center-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* 화면 전체 높이에 맞춤 */
+}
+
+.title {
+  font-size: 48px;
+  color: purple;
+  text-shadow: 2px 2px black;
+  margin-bottom: 20px;
+}
+
+.character-img {
+  width: 300px; /* 크기 조정 가능 */
+}
