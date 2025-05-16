@@ -79,7 +79,7 @@ main {
 
 h2 {
     color: #333;
-    border-bottom: 2px solid #7B68EE;
+    border-bottom: 2px solid #5444b3;
     padding-bottom: 0.5em;
     margin-bottom: 1em;
     text-align: center;
@@ -88,4 +88,13 @@ h2 {
 img {
   width: 100%;    /* 부모 요소에 맞게 자동 조정 */
   max-width: 1000px;
+}
+
+.project-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;     /* 원형 이미지 */
+  object-fit: cover;      /* 꽉 차게 자르기 */
+  margin-bottom: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
