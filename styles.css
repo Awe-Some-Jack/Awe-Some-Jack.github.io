@@ -96,5 +96,5 @@ img {
   border-radius: 50%;     /* 원형 이미지 */
   object-fit: cover;      /* 꽉 차게 자르기 */
   margin-bottom: 15px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
