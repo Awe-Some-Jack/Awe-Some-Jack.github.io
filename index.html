@@ -50,6 +50,21 @@
 
   </main>
 
+  <script>
+  window.addEventListener('load', function () {
+    const ad = document.createElement('div');
+    ad.className = 'adsbox';
+    ad.style.display = 'none';
+    document.body.appendChild(ad);
+
+    window.setTimeout(() => {
+      if (ad.offsetHeight === 0) {
+        alert("⚠️ 광고 차단기가 감지되었습니다. 사이트를 원활히 이용하려면 광고 차단기를 꺼주세요 🙏");
+      }
+    }, 100);
+  });
+  </script>
+
 
   <footer>
         <p>&copy; 2025, AweSomeJack</p>
