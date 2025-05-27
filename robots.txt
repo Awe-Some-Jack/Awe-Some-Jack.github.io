@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://awe-some-jack.github.io/sitemap.xml
