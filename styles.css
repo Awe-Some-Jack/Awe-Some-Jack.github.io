@@ -103,3 +103,7 @@ img {
 .project-img:hover {
   transform: scale(1.1);
 }
+
+footer a {
+  text-decoration: none;
+}
