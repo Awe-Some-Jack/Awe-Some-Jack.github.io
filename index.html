@@ -12,6 +12,11 @@
   <link rel="icon" href="favicon.ico?v=2">
   <link rel="stylesheet" href="styles.css">
 
+  <!-- 메뉴용 폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700;900&family=Gaegu:wght@700&display=swap" rel="stylesheet">
+
   <!-- 아이콘 비 효과용 캔버스 스타일 -->
   <style>
     #rain {
@@ -25,6 +30,107 @@
     main, footer {
       position: relative;
       z-index: 1;           /* 내용은 비 효과 위에 표시 */
+    }
+
+    /* ===== 상단 메뉴 ===== */
+    html { scroll-behavior: smooth; }
+
+    .gnb {
+      --red: #9d21ad;       /* 호버/현재 메뉴 색 */
+      --gray: #ffffff;         /* 영문 라벨 색 */
+      --black: #111;        /* 기본 글자색 */
+      --shift: 0px;        /* 메뉴를 오른쪽으로 옮기는 거리 */
+      position: relative;
+      z-index: 2;           /* 서브메뉴가 아래 내용 위로 덮이도록 */
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px 0 calc(20px + var(--shift));
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+    .gnb > ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 56px;          /* 메뉴 사이 간격 */
+    }
+    .gnb > ul > li > a {
+      display: block;
+      padding: 28px 0 18px;
+      text-decoration: none;
+      color: var(--black);
+    }
+    .gnb .en {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray);
+      text-transform: uppercase;
+    }
+    .gnb .ko {
+      display: block;
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1.15;
+      transition: color .15s;
+    }
+    .gnb > ul > li > a:active .ko,        /* 누르는 순간 */
+    .gnb > ul > li > a:focus-visible .ko, /* 키보드(Tab)로 이동할 때만 */
+    .gnb > ul > li.is-active > a .ko,
+    .gnb > ul > li.open > a .ko {
+      color: var(--red);
+    }
+    @media (hover: hover) {               /* 마우스가 있는 기기에서만 호버 */
+      .gnb > ul > li:hover > a .ko { color: var(--red); }
+    }
+    .gnb a { -webkit-tap-highlight-color: transparent; }  /* 모바일 터치 시 회색 깜빡임 제거 */
+
+    /* 서브메뉴: 메뉴 아래에 가로로 펼쳐짐 */
+    .gnb .sub {
+      display: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      z-index: 10;
+      margin: 0;
+      padding: 12px 20px 12px calc(20px + var(--shift));
+      list-style: none;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, .08);
+      flex-wrap: wrap;
+      gap: 6px 26px;
+    }
+    .gnb li.open > .sub,
+    .gnb li > a:focus-visible + .sub {
+      display: flex;
+    }
+    @media (hover: hover) {
+      .gnb li:hover > .sub { display: flex; }
+    }
+    /* 키보드로 서브메뉴 항목에 이동 중일 때 유지 (:has 미지원 브라우저에서는 무시됨) */
+    .gnb li:has(> .sub a:focus-visible) > .sub {
+      display: flex;
+    }
+    .gnb .sub a {
+      font-family: 'Gaegu', 'Noto Sans KR', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .gnb .sub a:active,
+    .gnb .sub a.current {
+      color: var(--red);
+    }
+    @media (hover: hover) {
+      .gnb .sub a:hover { color: var(--red); }
+    }
+
+    /* 화면이 좁으면 옮기지 않음 */
+    @media (max-width: 600px) {
+      .gnb { --shift: 0px; }
     }
   </style>
 
@@ -55,13 +161,33 @@
 <body>
   <canvas id="rain"></canvas>
 
+  <nav class="gnb">
+    <ul>
+      <li>
+        <a href="#intro"><span class="en">Introduce</span><span class="ko">소개</span></a>
+      </li>
+      <li class="has-sub">
+        <a href="#projects"><span class="en">Projects</span><span class="ko">프로젝트</span></a>
+        <ul class="sub">
+          <li><a href="#proj-clip">FNF: 클립모드 한글패치</a></li>
+          <li><a href="#proj-among">FNF: Friends & Troubler</a></li>
+          <li><a href="#proj-fan">FNF: 남극석 5주년 팬 모드</a></li>
+          <li><a href="#proj-emotion">감정기복</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="https://ctee.kr/place/awesomejack" target="_blank" rel="noopener noreferrer"><span class="en">Support</span><span class="ko">후원</span></a>
+      </li>
+    </ul>
+  </nav>
+
   <main>
     <div class="center-wrapper">
       <h1 class="title">어썸Jack 작업 공간</h1>
       <img src="images/imagebanner.png" alt="AwesomeJack Owner Char">
     </div>
 
-    <div class="container">
+    <div class="container" id="intro">
       <h2>소개</h2>
       <p>모두 안녕하세요 어썸잭입니다!</p>
       <p>전 한국인 프리랜서이자 다양한 콘텐츠를 선보여줍니다.</p>
@@ -69,26 +195,26 @@
       <p>현재 프리랜서 활동을 시작하고 있습니다.</p>
     </div>
 
-    <div class="container">
+    <div class="container" id="projects">
       <h2>제작한 프로젝트</h2>
       <p>(이미지 클릭하면 해당 사이트로 이동됩니다!)</p>
 
-      <a href="https://gamebanana.com/mods/325390" target="_blank" rel="noopener noreferrer">
+      <a id="proj-clip" href="https://gamebanana.com/mods/325390" target="_blank" rel="noopener noreferrer">
         <img src="images/project2.jpg" alt="첫 프로젝트" class="project-img">
       </a>
       <p>어썸잭의 첫 코딩 작품이자 한글패치 작품 클립모드 입니다!</p>
 
-      <a href="https://gamejolt.com/games/Friends-And-Troubler-CHAPTERS-1/1055166" target="_blank" rel="noopener noreferrer">
+      <a id="proj-among" href="https://gamejolt.com/games/Friends-And-Troubler-CHAPTERS-1/1055166" target="_blank" rel="noopener noreferrer">
         <img src="images/project4.png" alt="제작 참여 프로젝트2" class="project-img">
       </a>
       <p>프나펑 어몽어스 모드이자 이보다 상상치도 못한 사건들이 펼쳐진다!</p>
 
-      <a href="https://gamebanana.com/mods/470928" target="_blank" rel="noopener noreferrer">
+      <a id="proj-fan" href="https://gamebanana.com/mods/470928" target="_blank" rel="noopener noreferrer">
         <img src="images/project1.png" alt="제작 참여 프로젝트" class="project-img">
       </a>
       <p>프나펑, 종합게임 주 콘텐츠이자 스트리머 남극석님의 5주년 기념 팬 모드입니다!</p>
 
-      <img src="images/project3.png" alt="알만툴 감정기복" class="project-img">
+      <img id="proj-emotion" src="images/project3.png" alt="알만툴 감정기복" class="project-img">
       <p style="color: red;">(이 게임은 고어, 공포 포함 되어있어 청소년들은 각별한 주의가 필요합니다.)</p>
       <p>저택의 비밀을 파헤쳐서 탈출하라! 알만툴 단편 공포게임 감정기복<br>(현재 미완성입니다!)</p>
     </div>
@@ -118,6 +244,32 @@
     </a>
   </footer>
 
+  <!-- 메뉴: 터치 기기에서는 눌러서 서브메뉴 열기/닫기 -->
+  <script>
+    (() => {
+      const isTouch = () => window.matchMedia('(hover: none)').matches;
+      const closeAll = () => document.querySelectorAll('.gnb li.open').forEach(li => li.classList.remove('open'));
+
+      // iOS Safari는 이 리스너가 있어야 :active(누르는 순간 색 변경)가 동작함
+      document.addEventListener('touchstart', () => {}, { passive: true });
+
+      document.querySelectorAll('.gnb li.has-sub > a').forEach(a => {
+        a.addEventListener('click', e => {
+          if (!isTouch()) return;
+          e.preventDefault();
+          const li = a.parentElement;
+          const wasOpen = li.classList.contains('open');
+          closeAll();
+          if (!wasOpen) li.classList.add('open');
+        });
+      });
+
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.gnb')) closeAll();
+      });
+    })();
+  </script>
+
   <!-- 이미지 우클릭/드래그 방지 -->
   <script>
     document.querySelectorAll('img').forEach(img => {
@@ -130,7 +282,7 @@
   <script>
     (() => {
       // ===== 설정 =====
-      const ICON_SRCS = ['images/haxeflixel.png', 'images/lua.png', 'images/mypc.png']; // 랜덤으로 쓸 이미지들
+      const ICON_SRCS = ['images/haxeflixel.png', 'images/lua.png']; // 랜덤으로 쓸 이미지들
       const COUNT     = 40;  // 동시에 떨어지는 개수
       const MIN_SIZE  = 20;  // 최소 크기(px)
       const MAX_SIZE  = 60;  // 최대 크기(px)
