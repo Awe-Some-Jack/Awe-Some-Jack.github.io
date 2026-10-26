@@ -104,6 +104,17 @@ img {
   transform: scale(1.1);
 }
 
+.rain {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* 클릭은 아래 링크로 통과 */
+  z-index: 9999;
+  /* 글 위로 내리게 함 */
+}
+
 footer a {
   text-decoration: none;
 }

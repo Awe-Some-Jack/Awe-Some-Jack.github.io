@@ -7,81 +7,218 @@
   <meta property="og:description" content="어썸잭의 프로젝트 개인 사이트.">
   <meta property="og:image" content="https://awe-some-jack.github.io/images/imagebanner.png">
   <meta property="og:type" content="website">
+  <meta name="google-adsense-account" content="ca-pub-3764713644157578">
   <title>AweSomeJack Workspace</title>
   <link rel="icon" href="favicon.ico?v=2">
   <link rel="stylesheet" href="styles.css">
 
+  <!-- 아이콘 비 효과용 캔버스 스타일 -->
+  <style>
+    #rain {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;           /* 배경 레이어 */
+    }
+    main, footer {
+      position: relative;
+      z-index: 1;           /* 내용은 비 효과 위에 표시 */
+    }
+  </style>
+
+  <!-- Google AdSense / Funding Choices -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3764713644157578"
-     crossorigin="anonymous"></script>
-  <script async src="https://fundingchoicesmessages.google.com/i/pub-3764713644157578?ers=1"></script><script>(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>   
-  <meta name="google-adsense-account" content="ca-pub-3764713644157578">
-</head>
-<main>
-<body>
-  <div class="center-wrapper">
-    <h1 class="title">어썸Jack 작업 공간</h1>
-    <img src="images/imagebanner.png" alt="AwesomeJack Owner Char">
-  </div>
-  <div class="container">
-    <h2>소개</h2>
-    <p>모두 안녕하세요 어썸잭입니다!</p>
-    <p>전 한국인 프리랜서이자 다양한 콘텐츠를 선보여줍니다.</p>
-    <p>2017년도 유튜브를 시작하게 되었으며 2021년 프나펑 콘텐츠로 전향 되었고</p>
-    <p>현재 프리랜서 활동을 시작하고 있습니다.</p>
-  </div>
-
-  <div class="container">
-    <h2>제작한 프로젝트</h2>
-    <p>(이미지 클릭하면 해당 사이트로 이동됩니다!)</p>
-    <a href="https://gamebanana.com/mods/325390" target="_blank">
-    <img src="images/project2.jpg" alt="첫 프로젝트" class="project-img" >
-    </a>
-    <p>어썸잭의 첫 코딩 작품이자 한글패치 작품 클립모드 입니다!</p>
-    <a href="https://gamejolt.com/games/Friends-And-Troubler-CHAPTERS-1/1055166" target="_blank">
-    <img src="images/project4.png" alt="제작 참여 프로젝트2" class="project-img" >
-    </a>
-    <p>프나펑 어몽어스 모드이자 이보다 상상치도 못한 사건들이 펼쳐진다!</p>
-    <a href="https://gamebanana.com/mods/470928" target="_blank">
-    <img src="images/project1.png" alt="제작 참여 프로젝트" class="project-img" >
-    </a>
-    <p>프나펑, 종합게임 주 콘텐츠이자 스트리머 남극석님의 5주년 기념 팬 모드입니다!</p>
-    <img src="images/project3.png" alt="알만툴 감정기복" class="project-img" >
-    </a>
-    <p style="color: red;">(이 게임은 고어, 공포 포함 되어있어 청소년들은 각별한 주의가 필요합니다.)</p>
-    <p>저택의 비밀을 파헤쳐서 탈출하라! 알만툴 단편 공포게임 감정기복<br>(현재 미완성입니다!)</p>
-  </div>
-
+    crossorigin="anonymous"></script>
+  <script async src="https://fundingchoicesmessages.google.com/i/pub-3764713644157578?ers=1"></script>
   <script>
-  document.querySelectorAll('img').forEach(img => {
-    img.addEventListener('contextmenu', e => e.preventDefault());
-    img.addEventListener('dragstart', e => e.preventDefault());
-  });
+    (function () {
+      function signalGooglefcPresent() {
+        if (!window.frames['googlefcPresent']) {
+          if (document.body) {
+            const iframe = document.createElement('iframe');
+            iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;';
+            iframe.style.display = 'none';
+            iframe.name = 'googlefcPresent';
+            document.body.appendChild(iframe);
+          } else {
+            setTimeout(signalGooglefcPresent, 0);
+          }
+        }
+      }
+      signalGooglefcPresent();
+    })();
   </script>
+</head>
 
-  <a href="https://ctee.kr/place/awesomejack" target="_blank" rel="noopener noreferrer">
-  <img src="images/ctee.png" alt="ctee 후원하러 가기" width="100">
-  </a>
+<body>
+  <canvas id="rain"></canvas>
 
+  <main>
+    <div class="center-wrapper">
+      <h1 class="title">어썸Jack 작업 공간</h1>
+      <img src="images/imagebanner.png" alt="AwesomeJack Owner Char">
+    </div>
+
+    <div class="container">
+      <h2>소개</h2>
+      <p>모두 안녕하세요 어썸잭입니다!</p>
+      <p>전 한국인 프리랜서이자 다양한 콘텐츠를 선보여줍니다.</p>
+      <p>2017년도 유튜브를 시작하게 되었으며 2021년 프나펑 콘텐츠로 전향 되었고</p>
+      <p>현재 프리랜서 활동을 시작하고 있습니다.</p>
+    </div>
+
+    <div class="container">
+      <h2>제작한 프로젝트</h2>
+      <p>(이미지 클릭하면 해당 사이트로 이동됩니다!)</p>
+
+      <a href="https://gamebanana.com/mods/325390" target="_blank" rel="noopener noreferrer">
+        <img src="images/project2.jpg" alt="첫 프로젝트" class="project-img">
+      </a>
+      <p>어썸잭의 첫 코딩 작품이자 한글패치 작품 클립모드 입니다!</p>
+
+      <a href="https://gamejolt.com/games/Friends-And-Troubler-CHAPTERS-1/1055166" target="_blank" rel="noopener noreferrer">
+        <img src="images/project4.png" alt="제작 참여 프로젝트2" class="project-img">
+      </a>
+      <p>프나펑 어몽어스 모드이자 이보다 상상치도 못한 사건들이 펼쳐진다!</p>
+
+      <a href="https://gamebanana.com/mods/470928" target="_blank" rel="noopener noreferrer">
+        <img src="images/project1.png" alt="제작 참여 프로젝트" class="project-img">
+      </a>
+      <p>프나펑, 종합게임 주 콘텐츠이자 스트리머 남극석님의 5주년 기념 팬 모드입니다!</p>
+
+      <img src="images/project3.png" alt="알만툴 감정기복" class="project-img">
+      <p style="color: red;">(이 게임은 고어, 공포 포함 되어있어 청소년들은 각별한 주의가 필요합니다.)</p>
+      <p>저택의 비밀을 파헤쳐서 탈출하라! 알만툴 단편 공포게임 감정기복<br>(현재 미완성입니다!)</p>
+    </div>
+
+    <a href="https://ctee.kr/place/awesomejack" target="_blank" rel="noopener noreferrer">
+      <img src="images/ctee.png" alt="ctee 후원하러 가기" width="100">
+    </a>
   </main>
 
   <footer>
-        <p>&copy; 2025, AweSomeJack</p>
+    <p>&copy; 2025, AweSomeJack</p>
 
-		<a href="https://www.youtube.com/@AweSomeJackExtra" target="_blank">
-        <img src="images/youtube.png" alt="YouTube" class="social-icon">
-		<a href="https://github.com/Awe-Some-Jack" target="_blank">
-        <img src="images/github.png" alt="GitHub" class="social-icon">
-        </a>
-        <a href="https://x.com/AweSomeJackEX" target="_blank">
-        <img src="images/x.png" alt="Twitter" class="social-icon">
-        </a>
-		<a href="https://gamebanana.com/members/1803165" target="_blank">
-        <img src="images/gamebanana.png" alt="GameBanana" class="social-icon">
-        </a>
-		<a href="https://gamejolt.com/@AweSomeJack" target="_blank">
-        <img src="images/gamejolt.png" alt="GameJolt" class="social-icon">
-        </a>
-  </a>
+    <a href="https://www.youtube.com/@AweSomeJackExtra" target="_blank" rel="noopener noreferrer">
+      <img src="images/youtube.png" alt="YouTube" class="social-icon">
+    </a>
+    <a href="https://github.com/Awe-Some-Jack" target="_blank" rel="noopener noreferrer">
+      <img src="images/github.png" alt="GitHub" class="social-icon">
+    </a>
+    <a href="https://x.com/AweSomeJackEX" target="_blank" rel="noopener noreferrer">
+      <img src="images/x.png" alt="Twitter" class="social-icon">
+    </a>
+    <a href="https://gamebanana.com/members/1803165" target="_blank" rel="noopener noreferrer">
+      <img src="images/gamebanana.png" alt="GameBanana" class="social-icon">
+    </a>
+    <a href="https://gamejolt.com/@AweSomeJack" target="_blank" rel="noopener noreferrer">
+      <img src="images/gamejolt.png" alt="GameJolt" class="social-icon">
+    </a>
   </footer>
+
+  <!-- 이미지 우클릭/드래그 방지 -->
+  <script>
+    document.querySelectorAll('img').forEach(img => {
+      img.addEventListener('contextmenu', e => e.preventDefault());
+      img.addEventListener('dragstart', e => e.preventDefault());
+    });
+  </script>
+
+  <!-- 아이콘 비 효과 -->
+  <script>
+    (() => {
+      // ===== 설정 =====
+      const ICON_SRCS = ['images/haxeflixel.png', 'images/lua.png', 'images/mypc.png']; // 랜덤으로 쓸 이미지들
+      const COUNT     = 40;  // 동시에 떨어지는 개수
+      const MIN_SIZE  = 20;  // 최소 크기(px)
+      const MAX_SIZE  = 60;  // 최대 크기(px)
+      // ================
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const canvas = document.getElementById('rain');
+      const ctx = canvas.getContext('2d');
+      let w, h, icons = [], drops = [];
+
+      // 이미지 여러 장을 모두 불러온 뒤 시작 (불러오기 실패한 파일은 자동으로 제외)
+      function loadImages(srcs) {
+        return Promise.all(srcs.map(src => new Promise(resolve => {
+          const img = new Image();
+          img.onload  = () => resolve(img);
+          img.onerror = () => resolve(null);
+          img.src = src;
+        })));
+      }
+
+      function resize() {
+        const dpr = window.devicePixelRatio || 1;
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width  = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function makeDrop(initial) {
+        const size = MIN_SIZE + Math.random() * (MAX_SIZE - MIN_SIZE);
+        const depth = (size - MIN_SIZE) / (MAX_SIZE - MIN_SIZE);
+        return {
+          img: icons[Math.floor(Math.random() * icons.length)], // 랜덤 이미지 선택
+          x: Math.random() * w,
+          y: initial ? Math.random() * h : -size - Math.random() * h * 0.3,
+          size,
+          speed: 80 + depth * 200 + Math.random() * 60,
+          alpha: 0.5 + depth * 0.5,
+          angle: Math.random() * Math.PI * 2,
+          spin: (Math.random() - 0.5) * 2,
+          swayAmp: 10 + Math.random() * 20,
+          swayFreq: 0.8 + Math.random() * 1.5,
+          phase: Math.random() * Math.PI * 2,
+          t: 0
+        };
+      }
+
+      let last = performance.now();
+      function frame(now) {
+        const dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+        ctx.clearRect(0, 0, w, h);
+
+        for (let i = 0; i < drops.length; i++) {
+          const d = drops[i];
+          d.t += dt;
+          d.y += d.speed * dt;
+          d.angle += d.spin * dt;
+
+          if (d.y - d.size > h) { drops[i] = makeDrop(false); continue; }
+
+          // 이미지마다 가로세로 비율이 달라도 찌그러지지 않게 처리
+          const dw = d.size;
+          const dh = d.size * (d.img.naturalHeight / d.img.naturalWidth);
+
+          const x = d.x + Math.sin(d.t * d.swayFreq + d.phase) * d.swayAmp;
+          ctx.save();
+          ctx.globalAlpha = d.alpha;
+          ctx.translate(x, d.y);
+          ctx.rotate(d.angle);
+          ctx.drawImage(d.img, -dw / 2, -dh / 2, dw, dh);
+          ctx.restore();
+        }
+        requestAnimationFrame(frame);
+      }
+
+      loadImages(ICON_SRCS).then(list => {
+        icons = list.filter(Boolean);
+        if (!icons.length) return; // 하나도 못 불러왔으면 종료
+        resize();
+        drops = Array.from({ length: COUNT }, () => makeDrop(true));
+        requestAnimationFrame(frame);
+      });
+
+      window.addEventListener('resize', resize);
+    })();
+  </script>
 </body>
 </html>
