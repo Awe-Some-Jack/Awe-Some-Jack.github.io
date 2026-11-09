@@ -132,7 +132,45 @@
     @media (max-width: 600px) {
       .gnb { --shift: 0px; }
     }
+
+    /* ===== 입장 화면 (누르면 효과음 재생) ===== */
+    html:not(.entered) body { overflow: hidden; }
+    .entered #gate { display: none; }
+    #gate {
+      --accent: #9d21ad;    /* 버튼 색 */
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      background: gray;     /* 사이트 배경색과 동일 */
+      transition: opacity .4s;
+    }
+    #gate.hide { opacity: 0; pointer-events: none; }
+    #gate .gate-title { margin: 0; font-size: 36px; color: #fff; text-shadow: 2px 2px #000; }
+    #gate .gate-note { margin: 0; font-size: 14px; color: #fff; }
+    #gate button {
+      padding: 14px 44px;
+      font-family: inherit;
+      font-size: 22px;
+      color: #fff;
+      background: var(--accent);
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    @media (hover: hover) {
+      #gate button:hover { filter: brightness(.85); }
+    }
   </style>
+
+  <script>
+    // 같은 탭에서 이미 입장했다면 입장 화면을 건너뜀
+    try { if (sessionStorage.getItem('entered')) document.documentElement.classList.add('entered'); } catch (e) {}
+  </script>
 
   <!-- Google AdSense / Funding Choices -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3764713644157578"
@@ -159,6 +197,12 @@
 </head>
 
 <body>
+  <!-- 입장 화면 -->
+  <div id="gate" role="dialog" aria-modal="true" aria-label="입장">
+    <p class="gate-title">어썸Jack 작업 공간</p>
+    <button id="gate-btn" type="button">입장하기</button>
+  </div>
+
   <canvas id="rain"></canvas>
 
   <nav class="gnb">
@@ -266,6 +310,68 @@
 
       document.addEventListener('click', e => {
         if (!e.target.closest('.gnb')) closeAll();
+      });
+    })();
+  </script>
+
+  <!-- 입장 화면: 버튼을 누르면 입장 효과음 재생 -->
+  <script>
+    (() => {
+      const SOUND_SRC = 'sounds/windows-8-8-1-startup-sound.mp3'; // 효과음 파일 경로
+      const VOLUME    = 0.6;                // 볼륨 (0 ~ 1)
+
+      const gate = document.getElementById('gate');
+      const btn  = document.getElementById('gate-btn');
+      if (!gate || !btn) return;
+
+      // 이미 입장한 탭이면 입장 화면 제거 (head의 스크립트가 .entered를 붙임)
+      if (document.documentElement.classList.contains('entered')) {
+        gate.remove();
+        return;
+      }
+
+      const audio = new Audio(SOUND_SRC);
+      audio.preload = 'auto';
+      audio.volume = VOLUME;
+
+      btn.focus();
+
+      btn.addEventListener('click', () => {
+        audio.play().catch(() => {});   // 파일이 없어도 입장에는 영향 없음
+        try { sessionStorage.setItem('entered', '1'); } catch (e) {}
+        gate.classList.add('hide');
+        setTimeout(() => {
+          document.documentElement.classList.add('entered');
+          gate.remove();
+        }, 450);
+      });
+    })();
+  </script>
+
+  <!-- 외부 링크를 눌러 사이트를 나갈 때 효과음 -->
+  <script>
+    (() => {
+      const SOUND_SRC = 'sounds/exit.mp3'; // 효과음 파일 경로
+      const VOLUME    = 0.6;                // 볼륨 (0 ~ 1)
+      const DELAY     = 350;                // 같은 탭에서 이동할 때 소리를 들려줄 시간(ms)
+
+      const audio = new Audio(SOUND_SRC);
+      audio.preload = 'auto';
+      audio.volume = VOLUME;
+
+      document.addEventListener('click', e => {
+        const a = e.target.closest('a[href]');
+        if (!a || !a.hostname || a.hostname === location.hostname) return; // 내부 링크는 제외
+
+        audio.currentTime = 0;
+        audio.play().catch(() => {});  // 파일이 없거나 재생이 막혀도 이동에는 영향 없음
+
+        // 새 탭으로 열리는 링크는 그대로 두고, 같은 탭 이동이면 소리가 나올 시간만큼 잠깐 기다림
+        const newTab = a.target === '_blank' || e.ctrlKey || e.metaKey || e.shiftKey;
+        if (!newTab) {
+          e.preventDefault();
+          setTimeout(() => { location.href = a.href; }, DELAY);
+        }
       });
     })();
   </script>
